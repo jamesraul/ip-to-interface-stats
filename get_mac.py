@@ -29,7 +29,7 @@ DEBUG = False
 # Ask the user the IP address of the host to search/display
 IP_ADDRESS = raw_input('Enter the IP Address: ')
 
-# Define the routers that route host networks (acecss routers)
+# Define the routers that route host networks (access routers)
 # Nested dictionary defining the route paramters to pass into 
 # the netmiko-paramiko module to establish an SSH connection
 ROUTERS = {
