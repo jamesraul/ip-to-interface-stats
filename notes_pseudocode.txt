@@ -1,0 +1,125 @@
+show ip arp 10.0.0.5
+Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  10.0.0.5                5   0800.2725.d985  ARPA   FastEthernet0/0
+
+!!!!!grab mac address
+
+arp_entry = """Protocol  Address          Age (min)  Hardware Addr   Type   Interface
+Internet  10.0.0.5                5   0800.2725.d985  ARPA   FastEthernet0/0"""
+match = re.search(r'Internet (.*)', arp_entry)
+arp_entry =  match.group()
+arp_entry.split()[3]
+
+match = re.search(r'(..............)  ARPA', string1)
+mac_address = match.group(1)
+
+>>> mac_address
+'0800.2725.d985'
+
+switch# sho mac address-table address c454.449e.d76e
+Legend: 
+       * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+       age - seconds since last seen,+ - primary entry using vPC Peer-Link
+  VLAN     MAC Address      Type      age     Secure NTFY   Ports/SWID.SSID.LID
+---------+-----------------+--------+---------+------+----+------------------
+* 813      c454.449e.d76e    dynamic   120        F    F  Po61
+
+
+
+mac_table = """Legend: 
+       * - primary entry, G - Gateway MAC, (R) - Routed MAC, O - Overlay MAC
+       age - seconds since last seen,+ - primary entry using vPC Peer-Link
+  VLAN     MAC Address      Type      age     Secure NTFY   Ports/SWID.SSID.LID
+---------+-----------------+--------+---------+------+----+------------------
+* 813      c454.449e.d76e    dynamic   120        F    F  Po61"""
+match = re.search(r'dynamic (.*)', mac_table)
+interface = match.group(0)
+interface = interface.split()[4]
+
+
+interface
+'Po61'
+
+
+switch#
+
+******************************************************************************************
+switch# sho interface po61 switchport 
+Name: port-channel61
+ Switchport: Enabled
+ Switchport Monitor: Not enabled 
+ Operational Mode: trunk
+ Access Mode VLAN: 1 (default)
+ Trunking Native Mode VLAN: 1 (default)
+ Trunking VLANs Allowed: 1-3967,4048-4093
+ Pruning VLANs Enabled: 2-1001
+ Voice VLAN: none
+ ...
+
+ Extended Trust State : not trusted [COS = 0]
+ Administrative private-vlan primary host-association: none
+ Administrative private-vlan secondary host-association: none
+ Administrative private-vlan primary mapping: none
+ Administrative private-vlan secondary mapping: none
+ Administrative private-vlan trunk native VLAN: none
+ Administrative private-vlan trunk encapsulation: dot1q
+ Administrative private-vlan trunk normal VLANs: none
+ Administrative private-vlan trunk private VLANs: none
+ Operational private-vlan: none
+ Unknown unicast blocked: disabled
+ Unknown multicast blocked: disabled
+
+
+match = re.search(r'Operational Mode: (.*)', interface_switchport)
+switchport_mode = match.group(1)
+
+>>> switchport_mode
+'trunk'
+
+if 
+ Operational Mode: access (meaning this is the server host port)
+    then do a sho show interface
+
+
+      command = 'show interface {}'.format(interface)
+
+      'show interface Po61'
+
+
+******************************************************************************************
+switch# show int po61
+port-channel61 is up
+vPC Status: Up, vPC number: 61
+ Hardware: Port-Channel, address: 547f.ee83.22a6 (bia 547f.ee83.22a6)
+ Description: blah
+ MTU 1500 bytes, BW 10000000 Kbit, DLY 10 usec
+ reliability 255/255, txload 1/255, rxload 1/255
+ Encapsulation ARPA
+ Port mode is trunk
+ full-duplex, 10 Gb/s
+ Input flow-control is off, output flow-control is off
+ Switchport monitor is off 
+ EtherType is 0x8100 
+ Members in this channel: Eth1/31
+ Last clearing of "show interface" counters never
+ 30 seconds input rate 121110224 bits/sec, 28507 packets/sec
+ 30 seconds output rate 358413968 bits/sec, 45812 packets/sec
+ Load-Interval #2: 5 minute (300 seconds)
+   input rate 142.30 Mbps, 28.99 Kpps; output rate 330.80 Mbps, 43.90 Kpps
+ RX
+   1840822148683 unicast packets  2532379454 multicast packets  1062269681 broadcast packets
+   1844416797818 input packets  1003729579361062 bytes
+   265716715809 jumbo packets  0 storm suppression bytes
+   0 runts  0 giants  0 CRC  0 no buffer
+   0 input error  0 short frame  0 overrun   0 underrun  0 ignored
+   0 watchdog  0 bad etype drop  0 bad proto drop  0 if down drop
+   0 input with dribble  0 input discard
+   0 Rx pause
+ TX
+   2545789523968 unicast packets  1007907949 multicast packets  307162693 broadcast packets
+   2547104594610 output packets  2227411688744325 bytes
+   352251836326 jumbo packets
+   0 output errors  0 collision  0 deferred  0 late collision
+   0 lost carrier  0 no carrier  0 babble 0 output discard
+   0 Tx pause
+ 7 interface resets
