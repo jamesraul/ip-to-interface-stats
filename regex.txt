@@ -1,0 +1,11 @@
+Exercise 1
+
+re.search(r'(..............)  ARPA', arp_entry)
+
+Exercise 2
+
+re.search(r'((FastEth|GigabitEth|TenGigabitEth|Eth)ernet[0-9]/[0-9]|Po[0-9])', mac_entry)
+
+re.search(r'Operational Mode: (.*)', switchport_info)
+
+
