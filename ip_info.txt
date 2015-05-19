@@ -1,0 +1,18 @@
+username admin
+
+password cisco
+
+
+R1 - router - 10.0.0.2
+
+R2 - router - 10.0.0.3
+
+ESW1 - switch - 10.0.0.11
+
+ESW2 - switch - 10.0.0.12
+
+Servers
+
+10.1.1.11
+10.1.1.12
+
